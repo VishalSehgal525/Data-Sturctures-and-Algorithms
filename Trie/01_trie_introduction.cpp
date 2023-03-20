@@ -61,6 +61,7 @@ bool search(TrieNode *root, string key)
 // Used to check whether the node is empty or not.
 bool isEmpty(TrieNode *root)
 {
+    // Traverse the alphabet array and check if any of the node is ON or not.
     for(int i = 0; i<26; i++)
         if(root->child[i]!=NULL)
             return false;
@@ -70,19 +71,25 @@ bool isEmpty(TrieNode *root)
 // Deleting a string from the trie data structure
 TrieNode *delKey(TrieNode *root, string key, int i)
 {
+    // Check if the trie data structure exists
     if(root == NULL) return NULL;
+    // Base Condtion for recursion
     if(i==key.length()) 
     {
+        // Initialized isEnd param to be false.
         root->isEnd = false;
+        // Check if the alphabet array of Nodes is empty or not. If yes, delete the node and set the parent node to null.
         if(isEmpty(root) == true)
         {
             delete(root);
             root = NULL;
         }
+        // Returning the address where we performed the operation.
         return root;
     }
     int index = key[i] - 'a';
     root->child[index] = delKey(root->child[index], key, i+1);
+    // After deleting the child node. Now checking if the current parent node is empty or not. If yes, delete the node and set the parent node to null.
     if(isEmpty(root) && root->isEnd == false)
     {
         delete(root);
